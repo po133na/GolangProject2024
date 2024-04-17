@@ -1,0 +1,39 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table Animals {
+  ID serial [primary key]
+  Kind_Of_Animal varchar(255)
+  Kind_Of_Breed varchar(255)
+	Name varchar(255)
+  Age int
+	Description text
+	Animal_Picture text
+}
+
+Table Users{
+  UserID serial [primary key]
+  User_Email text
+	Username varchar(30)
+	Password text
+  Number_of_phone_user varchar(50)
+  Profile_Picture_User text
+}
+
+
+Table Roles{
+	Role_name  varchar(50) [primary key]
+	Permissions text
+}
+
+Table Admins{
+	AdminID serial [primary key]
+  Admin_Email text
+	Adminame varchar(30)
+	Password text
+  Number_of_phone_Admin varchar(50)
+  Profile_Picture_Admin text
+	Role varchar(50)
+}
+
+Ref: Admins.Role > Roles.Role_name // many-to-one
