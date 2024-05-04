@@ -172,7 +172,7 @@ func (app *application) deleteAnimalHandler(w http.ResponseWriter, r *http.Reque
 
 	id, err := strconv.Atoi(param)
 	if err != nil || id < 1 {
-		app.respondWithError(w, http.StatusBadRequest, "Invalid menu ID")
+		app.respondWithError(w, http.StatusBadRequest, "Invalid Animal ID")
 		return
 	}
 
@@ -183,16 +183,4 @@ func (app *application) deleteAnimalHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	app.respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
-}
-
-func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
-	dec := json.NewDecoder(r.Body)
-	dec.DisallowUnknownFields()
-
-	err := dec.Decode(dst)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
