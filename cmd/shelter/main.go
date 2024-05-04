@@ -37,7 +37,7 @@ func main() {
 	var cfg config
 	flag.IntVar(&cfg.port, "port", 8081, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://postgres:ddoossyymm1211@localhost:5433/Animal_Shelter?sslmode=disable", "PostgreSQL DSN")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://postgres:Polly1990@localhost:5432/Animal_Shelter?sslmode=disable", "PostgreSQL DSN")
 	flag.Parse()
 	//new
 	logger := jsonlog.NewLogger(os.Stdout, jsonlog.LevelInfo)
