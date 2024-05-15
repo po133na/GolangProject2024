@@ -40,5 +40,13 @@ func (app *application) routes() http.Handler {
 	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.updateShelterHandler).Methods("PUT")
 	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.requirePermissions("shelters:read", app.deleteShelterHandler)).Methods("DELETE")
 
+	//Employee Singleton
+	em1 := r.PathPrefix("/api/v1").Subrouter()
+
+	em1.HandleFunc("/employee", app.createEmployeeHandler).Methods("POST")
+	em1.HandleFunc("/employees/{employeeId:[0-9]+}", app.getEmployeeHandler).Methods("GET")
+	em1.HandleFunc("/employees/sort", app.getEmployeesSortedHandler).Methods("GET")
+	em1.HandleFunc("/employees/{employeeId:[0-9]+}", app.updateEmployeeHandler).Methods("PUT")
+	em1.HandleFunc("/employees/{employeeId:[0-9]+}", app.requirePermissions("employees:read", app.deleteEmployeeHandler)).Methods("DELETE")
 	return app.authenticate(r)
 }
