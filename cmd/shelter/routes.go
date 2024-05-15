@@ -39,7 +39,8 @@ func (app *application) routes() http.Handler {
 	sh1.HandleFunc("/shelters/sort", app.getSheltersSortedHandler).Methods("GET")
 	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.updateShelterHandler).Methods("PUT")
 	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.requirePermissions("shelters:read", app.deleteShelterHandler)).Methods("DELETE")
-
+	//get a list of employees from shelter
+	sh1.HandleFunc("/shelters/{shelterId}/employees", app.getEmployeesSortedHandler).Methods("GET")
 	//Employee Singleton
 	em1 := r.PathPrefix("/api/v1").Subrouter()
 

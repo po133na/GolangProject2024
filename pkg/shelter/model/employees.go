@@ -14,6 +14,7 @@ type Employee struct {
 	Surname string `json:"surname"`
 	Salary  string `json:"salary"`
 	Duty    string `json:"duty"`
+	Shelter string `json:"shelter"`
 }
 
 type EmployeeModel struct {
@@ -25,8 +26,8 @@ type EmployeeModel struct {
 func (e EmployeeModel) Insert(employee *Employee) error {
 	// check for ID needed here if error
 	query := `
-		INSERT INTO Employees (Name, Surname, Salary, Duty) 
-		VALUES ($1, $2, $3, $4) 
+		INSERT INTO Employees (Name, Surname, Salary, Duty, Shelter) 
+		VALUES ($1, $2, $3, $4, $5) 
 		RETURNING id, Name
 		`
 	// check if its animal of Animals in case of error
@@ -40,7 +41,7 @@ func (e EmployeeModel) Insert(employee *Employee) error {
 func (e EmployeeModel) Get(id int) (*Employee, error) {
 	// Retrieve a specific menu item based on its ID.
 	query := `
-		SELECT id, Name, Surname, Salary, Duty
+		SELECT id, Name, Surname, Salary, Duty, Shelter
 		FROM Employees
 		WHERE ID = $1
 		`
@@ -61,8 +62,8 @@ func (e EmployeeModel) GetSort(Name, Surname string, filters Filters) ([]*Employ
 	// Retrieve all menu items from the database.
 	query := fmt.Sprintf(
 		`
-		SELECT count(*) OVER(), id, Name, Surname, Salary, Duty
-		FROM Animals
+		SELECT count(*) OVER(), id, Name, Surname, Salary, Duty, Shelter
+		FROM Employees
 		WHERE (LOWER(Name) = LOWER($1) OR $1 = '')
 		AND (LOWER(Surname) = LOWER($2) OR $2 = '')
 		--AND (Salary >= $2 OR $2 = 0)
@@ -100,7 +101,7 @@ func (e EmployeeModel) GetSort(Name, Surname string, filters Filters) ([]*Employ
 	var employees []*Employee
 	for rows.Next() {
 		var employee Employee
-		err := rows.Scan(&totalRecords, &employee.ID, &employee.Name, &employee.Surname, &employee.Salary, &employee.Duty)
+		err := rows.Scan(&totalRecords, &employee.ID, &employee.Name, &employee.Surname, &employee.Salary, &employee.Duty, &employee.Shelter)
 		if err != nil {
 			return nil, Metadata{}, err
 		}
@@ -140,7 +141,7 @@ func (e EmployeeModel) Update(employee *Employee) error {
 	// Update a specific animal in the database.
 	query := `
         UPDATE Employees
-        SET Name = $2, Surname = $3, Salary = $4, Duty = $5
+        SET Name = $2, Surname = $3, Salary = $4, Duty = $5, Shelter = $6
         WHERE ID = $1
         RETURNING ID
         `

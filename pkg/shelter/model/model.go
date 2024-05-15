@@ -13,6 +13,7 @@ type Models struct {
 	Shelters    ShelterModel
 	Tokens      TokenModel
 	Permissions PermissionModel
+	Employees   EmployeeModel
 }
 
 func NewModels(db *sql.DB) Models {
