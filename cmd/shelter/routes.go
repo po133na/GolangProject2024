@@ -26,10 +26,19 @@ func (app *application) routes() http.Handler {
 	v1.HandleFunc("/animals/{animalId:[0-9]+}", app.requirePermissions("animals:read", app.deleteAnimalHandler)).Methods("DELETE")
 
 	users1 := r.PathPrefix("/api/v1").Subrouter()
-
+	//User Singleton
 	users1.HandleFunc("/users", app.registerUserHandler).Methods("POST")
 	users1.HandleFunc("/users/activated", app.activateUserHandler).Methods("PUT")
 	users1.HandleFunc("/users/login", app.createAuthenticationTokenHandler).Methods("POST")
+
+	//Shelter Singleton
+	sh1 := r.PathPrefix("/api/v1").Subrouter()
+
+	sh1.HandleFunc("/shelters", app.createShelterHandler).Methods("POST")
+	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.getShelterHandler).Methods("GET")
+	sh1.HandleFunc("/shelters/sort", app.getSheltersSortedHandler).Methods("GET")
+	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.updateShelterHandler).Methods("PUT")
+	sh1.HandleFunc("/shelters/{shelterId:[0-9]+}", app.requirePermissions("shelters:read", app.deleteShelterHandler)).Methods("DELETE")
 
 	return app.authenticate(r)
 }
